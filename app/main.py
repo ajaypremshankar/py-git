@@ -63,7 +63,7 @@ def read_obj(hash_key: str):
     return zlib.decompress(content)
 
 def hash_object(argv: list[str]):
-    if sys.argv[2] == '-w':
+    if argv[2] == '-w':
         raw = read_file(sys.argv[3])
         full_data = get_full_data(raw, 'blob')
 
@@ -73,7 +73,7 @@ def hash_object(argv: list[str]):
         sys.stdout.write(f"{sha_key}")
 
 def ls_tree(argv: list[str]):
-    if sys.argv[2] == '--name-only':
+    if argv[2] == '--name-only':
         tree_sha = sys.argv[3]
 
         tree_content = read_obj(tree_sha)
@@ -84,7 +84,3 @@ def ls_tree(argv: list[str]):
             _, name = mode.split()
             binary_data = binary_data[20:]
             print(name.decode())
-
-
-if __name__ == "__main__":
-    main()
