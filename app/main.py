@@ -78,8 +78,32 @@ def main():
     elif command == 'write-tree':
         hash_key = write_dir_as_tree(".")
         sys.stdout.write(f"{hash_key}")
+    elif command == 'commit-tree':
+        hash_key = commit_tree(argv=sys.argv)
+        sys.stdout.write(f"{hash_key}")
     else:
         raise RuntimeError(f"Unknown command #{command}")
+
+
+def commit_tree(argv: list[str]):
+    tree_sha = argv[2]
+    commit = argv[4]
+    message = argv[6]
+
+    commit_obj = bytearray()
+    commit_obj += f"tree {tree_sha}\n".encode()
+    commit_obj += f"parent {commit}\n".encode()
+    commit_obj += f"author ajay <ajay@test.com>\n\n".encode()
+    commit_obj += f"{message}\n".encode()
+
+    full_data = ObjectUtils.get_full_data(commit_obj, 'commit')
+    sha_key = CommonUtils.get_key(full_data)
+
+    ObjectUtils.write_obj(sha_key, full_data)
+    
+    return sha_key
+
+
 
 def write_dir_as_tree(path: str):
     if path == './.git':
@@ -114,7 +138,7 @@ def write_dir_as_tree(path: str):
     byte_content = bytearray()
     for tree_node in tree_nodes:
         if not tree_node.get("hash", "") == "":
-            byte_content += f"{tree_node.get("mode")} {tree_node.get("name", "")}\0".encode()
+            byte_content += f"{tree_node.get("mode")} {tree_node.get("name")}\0".encode()
             byte_content += int.to_bytes(int(tree_node.get("hash"), base=16), length=20, byteorder="big")
 
     full_data = ObjectUtils.get_full_data(byte_content, 'tree')
