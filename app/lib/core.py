@@ -2,15 +2,14 @@ import os
 from app.utils import file_utils, object_utils, common_utils
 
 def hash_object(path: str, is_write = True):
+    raw = file_utils.read_file(path)
+    full_data = object_utils.get_full_data(raw, 'blob')
+
+    sha_key = common_utils.get_key(full_data)
+
     if is_write:
-        raw = file_utils.read_file(path)
-        full_data = object_utils.get_full_data(raw, 'blob')
-
-        sha_key = common_utils.get_key(full_data)
-
         object_utils.write_obj(sha_key, full_data)
-        return sha_key
-
+    return sha_key
 
 def write_dir_as_tree(path: str):
     if path == f"{path}/.git":
@@ -56,22 +55,26 @@ def write_dir_as_tree(path: str):
 
     return sha_key
 
-def ls_tree(tree_sha: str, name_only: bool = True):
+def ls_tree(tree_sha: str):
 
     result = []
 
-    if name_only:
-        tree_content = object_utils.read_obj(tree_sha)
-        _, binary_data = tree_content.split(b"\x00", maxsplit=1)
+    tree_content = object_utils.read_obj(tree_sha)
+    _, binary_data = tree_content.split(b"\x00", maxsplit=1)
 
-        while binary_data:
-            mode, binary_data = binary_data.split(b"\x00", maxsplit=1)
-            _, name = mode.split()
-            binary_data = binary_data[20:]
-            result.append({
-                "name": name.decode()
-            })
+    while binary_data:
+        mode_and_name, binary_data = binary_data.split(b"\x00", maxsplit=1)
+        mode, name = mode_and_name.split()
+        int_byte = binary_data[:20]
+        binary_data = binary_data[20:]
+        hash_key = hex(int.from_bytes(int_byte, byteorder="big"))[2:].zfill(40)
 
+        result.append({
+            "name": name.decode(),
+            "mode": mode.decode(),
+            "hash": hash_key,
+            "type": "tree" if mode.decode() == '40000' else "blob"
+        })
     return result
 
 
