@@ -1,5 +1,7 @@
-# Python based GIT commands
-To understand git internals better
+# py-git
+Python based git to:
+1. Learn git internals better
+2. Learn python as additional language 
 
 ### Commands implemented:
 1. init
