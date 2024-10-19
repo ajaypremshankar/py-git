@@ -76,22 +76,3 @@ def ls_tree(tree_sha: str):
             "type": "tree" if mode.decode() == '40000' else "blob"
         })
     return result
-
-
-def commit_tree(args: list[str]):
-    tree_sha = args[1]
-    commit = args[3]
-    message = args[5]
-
-    commit_obj = bytearray()
-    commit_obj += f"tree {tree_sha}\n".encode()
-    commit_obj += f"parent {commit}\n".encode()
-    commit_obj += f"author ajay <ajay@test.com>\n\n".encode()
-    commit_obj += f"{message}\n".encode()
-
-    full_data = object_utils.get_full_data(commit_obj, 'commit')
-    sha_key = common_utils.get_key(full_data)
-
-    object_utils.write_obj(sha_key, full_data)
-
-    return sha_key
