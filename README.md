@@ -7,8 +7,10 @@ Python based git to:
 1. init
 2. cat-file
 3. hash-object
-4. write-tree
-5. commit-tree
+4. ls-tree
+5. write-tree
+6. commit-tree
+7. status (WIP)
 
 ## Testing locally
 
