@@ -1,7 +1,8 @@
 import os
+
 from app.utils import file_utils, object_utils, common_utils
 
-def hash_object(path: str, is_write = True):
+def hash_object(path: str, is_write=True):
     raw = file_utils.read_file(path)
     full_data = object_utils.get_full_data(raw, 'blob')
 
@@ -10,6 +11,7 @@ def hash_object(path: str, is_write = True):
     if is_write:
         object_utils.write_obj(sha_key, full_data)
     return sha_key
+
 
 def write_dir_as_tree(path: str):
     if path == f"{path}/.git":
@@ -40,7 +42,6 @@ def write_dir_as_tree(path: str):
                 'name': content
             })
 
-
     byte_content = bytearray()
     for tree_node in tree_nodes:
         if not tree_node.get("hash", "") == "":
@@ -55,8 +56,8 @@ def write_dir_as_tree(path: str):
 
     return sha_key
 
-def ls_tree(tree_sha: str):
 
+def ls_tree(tree_sha: str):
     result = []
 
     tree_content = object_utils.read_obj(tree_sha)
@@ -76,3 +77,17 @@ def ls_tree(tree_sha: str):
             "type": "tree" if mode.decode() == '40000' else "blob"
         })
     return result
+
+
+def get_git_ignored():
+    git_ignored_paths = {}
+    content = file_utils.read_file(f"{common_utils.get_repo_path(".gitignore")}")
+
+    for line in content.splitlines():
+
+        if line.decode().startswith("#"):
+            continue
+        else:
+            git_ignored_paths[line.decode().strip("/")] = True
+
+    return git_ignored_paths

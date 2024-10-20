@@ -24,7 +24,7 @@ class CommitTreeCommand(Command):
             index += 1
 
         if len(args) <= message_at or message_at == -1:
-            raise RuntimeError("message not passed")
+            raise RuntimeError("commit message not passed")
         else:
             args_dict["message"] = args[message_at]
 
