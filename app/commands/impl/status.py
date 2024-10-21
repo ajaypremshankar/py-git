@@ -6,7 +6,7 @@ from app.lib import core
 from app.utils import common_utils
 
 """
-Brainstorming `Status` Command:
+Building intuition of `Status` Command:
 
 So let's say file is already committed (A).
 Now author made changes in the file (A').
