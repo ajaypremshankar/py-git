@@ -91,3 +91,14 @@ def get_git_ignored():
             git_ignored_paths[line.decode().strip("/")] = True
 
     return git_ignored_paths
+
+def get_last_commit_on_current_branch():
+    content = file_utils.read_file(f"{common_utils.get_repo_path(".git/HEAD")}")
+
+    ref = content.splitlines()[0].decode().split(":")[1].strip()
+    commit = file_utils.read_file(f"{common_utils.get_repo_path(f".git/{ref}")}").splitlines()[0].decode()
+    commit_content = object_utils.read_obj(commit)
+    tree_sha_line = commit_content.splitlines()[0].decode().split(" ")
+    tree_sha = tree_sha_line[len(tree_sha_line) - 1]
+
+    return tree_sha

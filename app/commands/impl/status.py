@@ -1,4 +1,3 @@
-import json
 import os
 from pathlib import Path
 
@@ -65,8 +64,10 @@ def compare_flattened_trees(git_tree: dict[str, dict], working_tree: dict[str, d
 
 class StatusCommand(Command):
     def execute(self):
-        # TODO get root commit
-        flattened_git_tree = self.get_flattened_git_tree('edac2b376a54ee1b56cdf89f9cfa5480c8bc688c')
+
+        last_commit = core.get_last_commit_on_current_branch()
+
+        flattened_git_tree = self.get_flattened_git_tree(last_commit)
 
         flattened_working_tree = self.get_flattened_work_tree()
 
