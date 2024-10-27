@@ -3,14 +3,17 @@ Python based git to:
 1. Learn git internals better
 2. Learn python as additional language 
 
-### Commands implemented:
-1. init
-2. cat-file
-3. hash-object
-4. ls-tree
-5. write-tree
-6. commit-tree
-7. status (WIP)
+### Commands Supported:
+1. init ✅
+2. cat-file ✅
+3. hash-object ✅
+4. ls-tree ✅
+5. write-tree ✅
+6. commit-tree ✅
+7. status ✅
+8. commit ⌛️
+9. diff 🕝
+10. add - staging area 🕝
 
 ## Testing locally
 
