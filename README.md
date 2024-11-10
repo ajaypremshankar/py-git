@@ -1,18 +1,31 @@
 # py-git
-Python based git to:
-1. Learn git internals better
-2. Learn python as additional language 
 
-### Commands Supported:
+Python based git to:
+
+1. Learn git internals better
+
+2. Learn python as additional language
+
+## Commands Supported
+
 1. init ✅
+
 2. cat-file ✅
+
 3. hash-object ✅
+
 4. ls-tree ✅
+
 5. write-tree ✅
+
 6. commit-tree ✅
+
 7. status ✅
+
 8. commit ⌛️
+
 9. diff 🕝
+
 10. add - staging area 🕝
 
 ## Testing locally
@@ -30,6 +43,7 @@ mkdir -p /tmp/testing && cd /tmp/testing
 /path/to/your/repo/your_program.sh init
 ```
 
+▫️
 To make this easier to type out, you could add a
 [shell alias](https://shapeshed.com/unix-alias/):
 
@@ -41,4 +55,6 @@ pygit init
 ```
 
 ### Credits
+
 [codecrafters - git challenge](https://app.codecrafters.io/courses/git)
+
